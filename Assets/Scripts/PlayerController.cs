@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("DeadPlane"))
+        if (other.gameObject.CompareTag("DeathPlane"))
         {
             //move player position to spawn point's position
             this._transform.position = this.SpawnPoint.position;
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Plataform"))
+        if (other.gameObject.CompareTag("Platform"))
         {
             this._isGrounded = true;
         }
