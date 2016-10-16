@@ -10,12 +10,14 @@ public class PlayerController : MonoBehaviour {
     private float _jump;
     private bool isFacingRight = true;
     private bool _isGrounded;
+    private Animator _animator;
+    private GameObject _camera;
+    private GameObject _spawnPoint;
 
     //Public instances variables
     public float Velocity = 10f;
     public float JumpForce = 100f;
-    public Camera camera;
-    public Transform SpawnPoint;
+
     //public AudioSource JumpSound;
 	// Use this for initialization
 	void Start () {
@@ -32,23 +34,28 @@ public class PlayerController : MonoBehaviour {
             this._move = Input.GetAxis("Horizontal");
             if (this._move > 0f)
             {
+                this._animator.SetInteger("HeroState", 1);
                 this._move = 1;
                 this.isFacingRight = true;
                 this.flip();
             }
             else if (this._move < 0f)
             {
+                this._animator.SetInteger("HeroState", 1);
                 this._move = -1;
                 this.isFacingRight = false;
                 this.flip();
             }
             else
             {
+                //set animator state 
+                this._animator.SetInteger("HeroState", 0);
                 this._move = 0f;
             }
             //to jump
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                this._animator.SetInteger("HeroState", 2);
                 this._jump = 1f;
                 //this.JumpSound.Play();
 
@@ -63,7 +70,7 @@ public class PlayerController : MonoBehaviour {
         }
         
 
-        this.camera.transform.position = new Vector3(this._transform.position.x, this._transform.position.y, -10f);
+        this._camera.transform.position = new Vector3(this._transform.position.x, this._transform.position.y, -10f);
         
 	}
 
@@ -76,6 +83,9 @@ public class PlayerController : MonoBehaviour {
     {
         this._transform = GetComponent<Transform>();
         this._rigidbody = GetComponent<Rigidbody2D>();
+        this._animator = GetComponent<Animator>();
+        this._camera = GameObject.FindWithTag("MainCamera");
+        this._spawnPoint = GameObject.FindWithTag("SpawnPoint");
         this._move = 0;
         this.isFacingRight = true;
         this._isGrounded = false;
@@ -97,7 +107,7 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("DeathPlane"))
         {
             //move player position to spawn point's position
-            this._transform.position = this.SpawnPoint.position;
+            this._transform.position = this._spawnPoint.transform.position;
 
         }
     }
@@ -112,6 +122,8 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionExit2D(Collision2D other)
     {
+
+        this._animator.SetInteger("HeroState", 2);
         this._isGrounded = false;
     }
 

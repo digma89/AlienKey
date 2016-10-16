@@ -20,12 +20,7 @@ public class EnemyController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		// make a reference to this object's Transform and Rigidbody2D components
-		this._transform = GetComponent<Transform> ();
-		this._rigidbody = GetComponent<Rigidbody2D> ();
-		this._isGrounded = false;
-		this._isGroundAhead = true;
-		this._isPlayerDetected = false;
+        _initialize();
 	}
 	
 	// Update is called once per frame (Physics)
@@ -66,6 +61,17 @@ public class EnemyController : MonoBehaviour {
 		}
 
 	}
+
+    private void _initialize()
+    {
+        // make a reference to this object's Transform and Rigidbody2D components
+        this._transform = GetComponent<Transform>();
+        this._rigidbody = GetComponent<Rigidbody2D>();
+        this._isGrounded = false;
+        this._isGroundAhead = true;
+        this._isPlayerDetected = false;
+        
+    }
 
 	// object is colliding with another one of its kind - flip directions
 	private void OnCollisionEnter2D(Collision2D other) {
