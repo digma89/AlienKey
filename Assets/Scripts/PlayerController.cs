@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Platform"))
+        if (other.gameObject.CompareTag("Platform") || other.gameObject.CompareTag("Enemy"))
         {
             this._isGrounded = true;
         }

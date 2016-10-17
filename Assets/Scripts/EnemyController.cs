@@ -6,13 +6,16 @@ public class EnemyController : MonoBehaviour {
 	// PRIVATE INSTANCE VARIABLES 
 	private Transform _transform;
 	private Rigidbody2D _rigidbody;
+    private Animator _animator;
 	private bool _isGrounded;
 	private bool _isGroundAhead;
 	private bool _isPlayerDetected;
+    private bool _stoped = false;
+    private int _time = 0;
 
 	// PUBLIC INSTANCE VARIABLES (FOR TESTING)
-	public float Speed = -2f;
-	public float MaximumSpeed = -4f;
+	public float Speed = -1f;
+	public float MaximumSpeed = -2f;
 	public Transform SightStart;
 	public Transform SightEnd;
 	public Transform LineOfSight;
@@ -26,7 +29,7 @@ public class EnemyController : MonoBehaviour {
 	// Update is called once per frame (Physics)
 	void FixedUpdate () {
 		// check if the object is grounded 
-		if (this._isGrounded) {
+		if (this._isGrounded && !this._stoped) {
 			// move the object in the direction of his local scale
 			this._rigidbody.velocity = new Vector2(this._transform.localScale.x, 0) * this.Speed;
 
@@ -59,6 +62,16 @@ public class EnemyController : MonoBehaviour {
 				}
 			}
 		}
+        if (_stoped)
+        {
+            _time++;
+
+            if (_time == 200)
+            {
+                _stoped = false;
+                this._animator.SetInteger("EnemyDead", 0);
+            }
+        }
 
 	}
 
@@ -67,6 +80,7 @@ public class EnemyController : MonoBehaviour {
         // make a reference to this object's Transform and Rigidbody2D components
         this._transform = GetComponent<Transform>();
         this._rigidbody = GetComponent<Rigidbody2D>();
+        this._animator = GetComponent<Animator>();
         this._isGrounded = false;
         this._isGroundAhead = true;
         this._isPlayerDetected = false;
@@ -98,10 +112,21 @@ public class EnemyController : MonoBehaviour {
 	 * This method flips the character's bitmap across the x-axis
 	 */
 	private void _flip () {
-		if (this._transform.localScale.x == 1) {
-			this._transform.localScale = new Vector2 (-1f, 1f);
+		if (this._transform.localScale.x == 2) {
+			this._transform.localScale = new Vector2 (-2f, 2f);
 		} else {
-			this._transform.localScale = new Vector2 (1f, 1f);
+			this._transform.localScale = new Vector2 (2f, 2f);
 		}
 	}
+
+    //To kill the enemy step into its head have collider (is trigger)
+    //Change the animation stop the player and desactivate the big collider 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("object enter the trigger");
+        this._animator.SetInteger("EnemyDead", 1);
+        this._stoped = true;
+        this.Speed = -1;
+        _time = 0;
+    }
 }
