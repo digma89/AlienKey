@@ -44,8 +44,8 @@ public class EnemyController : MonoBehaviour {
 				1 << LayerMask.NameToLayer ("Player"));
 
 			// for debugging purposes only
-			Debug.DrawLine(this.SightStart.position, this.SightEnd.position);
-			Debug.DrawLine(this.SightStart.position, this.LineOfSight.position);
+			//Debug.DrawLine(this.SightStart.position, this.SightEnd.position);
+			//Debug.DrawLine(this.SightStart.position, this.LineOfSight.position);
 
 			// check if there is ground ahead for the object to walk
 			if (this._isGroundAhead == false) {
@@ -123,10 +123,12 @@ public class EnemyController : MonoBehaviour {
     //Change the animation stop the player and desactivate the big collider 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("object enter the trigger");
-        this._animator.SetInteger("EnemyDead", 1);
-        this._stoped = true;
-        this.Speed = -1;
-        _time = 0;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            this._animator.SetInteger("EnemyDead", 1);
+            this._stoped = true;
+            this.Speed = -1;
+            _time = 0;
+        }
     }
 }

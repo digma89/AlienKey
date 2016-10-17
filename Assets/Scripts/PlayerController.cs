@@ -108,7 +108,6 @@ public class PlayerController : MonoBehaviour {
         {
             //move player position to spawn point's position
             this._transform.position = this._spawnPoint.transform.position;
-
         }
     }
 
@@ -126,6 +125,18 @@ public class PlayerController : MonoBehaviour {
         this._animator.SetInteger("HeroState", 2);
         this._isGrounded = false;
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        //when pick up a coin
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            //coin score +100
+            Debug.Log("Coin");
+            Destroy(other.gameObject);
+        }
+    }
+
 
 
 }
