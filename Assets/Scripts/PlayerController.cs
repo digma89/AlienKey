@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour {
     private Animator _animator;
     private GameObject _camera;
     private GameObject _spawnPoint;
-    private GameObject _gameControllerObject;
+    //private GameObject _gameControllerObject;
+    //private GameController _gameController;
     private GameController _gameController;
 
     //Public instances variables
@@ -88,8 +89,10 @@ public class PlayerController : MonoBehaviour {
         this._animator = GetComponent<Animator>();
         this._camera = GameObject.FindWithTag("MainCamera");
         this._spawnPoint = GameObject.FindWithTag("SpawnPoint");
-        this._gameControllerObject = GameObject.Find("GameController");
-        this._gameController = this._gameControllerObject.GetComponent<GameController> () as GameController;
+        //this._gameControllerObject = GameObject.Find("GameController");
+        //this._gameController = this._gameControllerObject.GetComponent<GameController> () as GameController;
+        this._gameController = FindObjectOfType(typeof(GameController)) as GameController;
+
         this._move = 0;
         this.isFacingRight = true;
         this._isGrounded = false;
