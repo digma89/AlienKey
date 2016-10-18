@@ -20,6 +20,9 @@ public class EnemyController : MonoBehaviour {
 	public Transform SightEnd;
 	public Transform LineOfSight;
 
+    //private AudioSources
+    private AudioSource EnemySound;
+
 
 	// Use this for initialization
 	void Start () {
@@ -81,6 +84,7 @@ public class EnemyController : MonoBehaviour {
         this._transform = GetComponent<Transform>();
         this._rigidbody = GetComponent<Rigidbody2D>();
         this._animator = GetComponent<Animator>();
+        this.EnemySound = GetComponent<AudioSource>();
         this._isGrounded = false;
         this._isGroundAhead = true;
         this._isPlayerDetected = false;
@@ -125,6 +129,7 @@ public class EnemyController : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            this.EnemySound.Play();
             this._animator.SetInteger("EnemyDead", 1);
             this._stoped = true;
             this.Speed = -1;

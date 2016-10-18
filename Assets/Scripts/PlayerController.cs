@@ -21,7 +21,13 @@ public class PlayerController : MonoBehaviour {
     public float Velocity = 10f;
     public float JumpForce = 100f;
 
-    //public AudioSource JumpSound;
+    //public AudioSources
+    [Header("SoundsClips")]
+    public AudioSource JumpSound;
+    public AudioSource CoinSound;
+    public AudioSource DeathPlaneSound;
+
+
 	// Use this for initialization
 	void Start () {
         this._initialize();
@@ -57,10 +63,10 @@ public class PlayerController : MonoBehaviour {
             }
             //to jump
             if (Input.GetKeyDown(KeyCode.Space))
-            {
+            {                
                 this._animator.SetInteger("HeroState", 2);
                 this._jump = 1f;
-                //this.JumpSound.Play();
+                this.JumpSound.Play();
 
             }
 
@@ -114,8 +120,10 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("DeathPlane"))
         {
             //move player position to spawn point's position
+            this.DeathPlaneSound.Play();
             this._transform.position = this._spawnPoint.transform.position;
             this._gameController.LivesValue -= 1;
+            
         }
     }
 
@@ -140,6 +148,7 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("Coin"))
         {
             //coin score +100
+            this.CoinSound.Play();
             this._gameController.ScoreValue += 100;
             Destroy(other.gameObject);
         }
