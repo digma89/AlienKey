@@ -17,8 +17,8 @@ public class GameController : MonoBehaviour {
 	public Text ScoreLabel;
     public Text GameOverLabel;
     public Text FinalScoreLabel;
+    public Text youWon;
     public Button RestartButton;
-    public Image backgroundGameOver;
     public GameObject Hero;
 
 	// PUBLIC PROPERTIES +++++++++++++++++++++++++++
@@ -53,10 +53,10 @@ public class GameController : MonoBehaviour {
 	void Start () {
 		this.LivesValue = 5;
 		this.ScoreValue = 0;
-        this.backgroundGameOver.gameObject.SetActive(false);
         this.GameOverLabel.gameObject.SetActive(false);
         this.FinalScoreLabel.gameObject.SetActive(false);
         this.RestartButton.gameObject.SetActive(false);
+        this.youWon.gameObject.SetActive(false);
 
 	}
 	
@@ -65,8 +65,16 @@ public class GameController : MonoBehaviour {
 	}
 
     private void _endGame(){
-        this.backgroundGameOver.gameObject.SetActive(true);
         this.GameOverLabel.gameObject.SetActive(true);
+        this.FinalScoreLabel.text = "Final Score: " + this.ScoreValue;
+        this.FinalScoreLabel.gameObject.SetActive(true);
+        this.RestartButton.gameObject.SetActive(true);
+        this.Hero.SetActive(false);
+    }
+
+    public void _wonGame()
+    {
+        this.youWon.gameObject.SetActive(true);
         this.FinalScoreLabel.text = "Final Score: " + this.ScoreValue;
         this.FinalScoreLabel.gameObject.SetActive(true);
         this.RestartButton.gameObject.SetActive(true);

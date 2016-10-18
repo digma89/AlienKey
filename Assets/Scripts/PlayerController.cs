@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     private bool isFacingRight = true;
     private bool _isGrounded;
     private Animator _animator;
+    private Animator _animatorGameEnded;
     private GameObject _camera;
     private GameObject _spawnPoint;
     //private GameObject _gameControllerObject;
@@ -67,6 +68,7 @@ public class PlayerController : MonoBehaviour {
                 this._animator.SetInteger("HeroState", 2);
                 this._jump = 1f;
                 this.JumpSound.Play();
+                this._isGrounded = false;
 
             }
 
@@ -93,6 +95,7 @@ public class PlayerController : MonoBehaviour {
         this._transform = GetComponent<Transform>();
         this._rigidbody = GetComponent<Rigidbody2D>();
         this._animator = GetComponent<Animator>();
+        this._animatorGameEnded = GameObject.FindWithTag("GameFinished").GetComponent<Animator>();
         this._camera = GameObject.FindWithTag("MainCamera");
         this._spawnPoint = GameObject.FindWithTag("SpawnPoint");
         //this._gameControllerObject = GameObject.Find("GameController");
@@ -122,8 +125,13 @@ public class PlayerController : MonoBehaviour {
             //move player position to spawn point's position
             this.DeathPlaneSound.Play();
             this._transform.position = this._spawnPoint.transform.position;
-            this._gameController.LivesValue -= 1;
-            
+            this._gameController.LivesValue -= 1;            
+        }
+
+        if (other.gameObject.CompareTag("GameFinished"))
+        {
+            this._animatorGameEnded.SetInteger("GameEnded", 1);
+            this._gameController._wonGame();
         }
     }
 
@@ -152,6 +160,7 @@ public class PlayerController : MonoBehaviour {
             this._gameController.ScoreValue += 100;
             Destroy(other.gameObject);
         }
+
     }
 
 
