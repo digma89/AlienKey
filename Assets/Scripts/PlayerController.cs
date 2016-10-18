@@ -114,10 +114,6 @@ public class PlayerController : MonoBehaviour {
             this._transform.position = this._spawnPoint.transform.position;
             this._gameController.LivesValue -= 1;
         }
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            this._gameController.LivesValue -= 1;
-        }
     }
 
     private void OnCollisionStay2D(Collision2D other)
