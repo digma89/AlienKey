@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour {
     private Animator _animator;
     private GameObject _camera;
     private GameObject _spawnPoint;
+    private GameObject _gameControllerObject;
+    private GameController _gameController;
 
     //Public instances variables
     public float Velocity = 10f;
@@ -86,6 +88,8 @@ public class PlayerController : MonoBehaviour {
         this._animator = GetComponent<Animator>();
         this._camera = GameObject.FindWithTag("MainCamera");
         this._spawnPoint = GameObject.FindWithTag("SpawnPoint");
+        this._gameControllerObject = GameObject.Find("GameController");
+        this._gameController = this._gameControllerObject.GetComponent<GameController> () as GameController;
         this._move = 0;
         this.isFacingRight = true;
         this._isGrounded = false;
@@ -108,6 +112,11 @@ public class PlayerController : MonoBehaviour {
         {
             //move player position to spawn point's position
             this._transform.position = this._spawnPoint.transform.position;
+            this._gameController.LivesValue -= 1;
+        }
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            this._gameController.LivesValue -= 1;
         }
     }
 
@@ -132,7 +141,7 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("Coin"))
         {
             //coin score +100
-            Debug.Log("Coin");
+            this._gameController.ScoreValue += 100;
             Destroy(other.gameObject);
         }
     }
